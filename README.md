@@ -1,0 +1,1 @@
+# django_project_managment_project
