@@ -4,10 +4,10 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Create New Project</h3>
+            <h3 class="card-title">Update Project</h3>
         </div>
         <div class="card-body">
-            <form action="{% url 'save' %}" method="POST">
+            <form action="{% url 'update_project' view_data.project.get_id %}" method="POST">
                 {% csrf_token %}
 
                 {% if view_data.form.non_field_errors %}
@@ -25,7 +25,8 @@
                     <div class="alert alert-danger">{{ error }}</div>
                     {% endfor %}
                     {% endif %}
-                    <input type="text" class="form-control" id="name" name="name" value="{{ form.name.value }}">
+                    <input type="text" class="form-control" id="name" name="name"
+                        value="{{ view_data.project.get_name }}">
                 </div>
 
                 <div class="mb-3">
@@ -36,7 +37,7 @@
                     {% endfor %}
                     {% endif %}
                     <input type="text" class="form-control" id="description" name="description"
-                        value="{{ form.description.value }}">
+                        value="{{ view_data.project.get_description }}">
                 </div>
 
                 <div class="mb-3">
@@ -47,7 +48,7 @@
                     {% endfor %}
                     {% endif %}
                     <input type="date" class="form-control" id="start_date" name="start_date"
-                        value="{{ form.start_date.value }}">
+                        value="{{ view_data.project.get_start_date|date:'Y-m-d' }}">
                 </div>
 
                 <div class="mb-3">
@@ -58,10 +59,10 @@
                     {% endfor %}
                     {% endif %}
                     <input type="date" class="form-control" id="end_date" name="end_date"
-                        value="{{ form.end_date.value }}">
+                        value="{{  view_data.project.get_end_date|date:'Y-m-d' }}">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary">Update</button>
             </form>
         </div>
     </div>

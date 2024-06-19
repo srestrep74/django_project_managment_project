@@ -1,0 +1,33 @@
+{% extends 'layouts/app.html' %}
+
+{%block content%}
+
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">{{ view_data.project.get_name }}</h1>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ view_data.project.get_description }}</p>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="alert alert-info" role="alert">
+                        <strong>Start Date: </strong>{{ view_data.project.get_start_date }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert alert-warning" role="alert">
+                        <strong>End Date: </strong>{{ view_data.project.get_end_date }}
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{% url 'get_tasks' view_data.project.get_id %}" class="btn btn-primary">See Tasks</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

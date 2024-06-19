@@ -4,10 +4,10 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Update Project</h3>
+            <h3 class="card-title">Create New Project</h3>
         </div>
         <div class="card-body">
-            <form action="{% url 'update' view_data.project.id %}" method="POST">
+            <form action="{% url 'save_project' %}" method="POST">
                 {% csrf_token %}
 
                 {% if view_data.form.non_field_errors %}
@@ -25,7 +25,7 @@
                     <div class="alert alert-danger">{{ error }}</div>
                     {% endfor %}
                     {% endif %}
-                    <input type="text" class="form-control" id="name" name="name" value="{{ view_data.project.name }}">
+                    <input type="text" class="form-control" id="name" name="name" value="{{ form.name.value }}">
                 </div>
 
                 <div class="mb-3">
@@ -36,7 +36,7 @@
                     {% endfor %}
                     {% endif %}
                     <input type="text" class="form-control" id="description" name="description"
-                        value="{{ view_data.project.description }}">
+                        value="{{ form.description.value }}">
                 </div>
 
                 <div class="mb-3">
@@ -47,7 +47,7 @@
                     {% endfor %}
                     {% endif %}
                     <input type="date" class="form-control" id="start_date" name="start_date"
-                        value="{{ view_data.project.start_date|date:'Y-m-d' }}">
+                        value="{{ form.start_date.value }}">
                 </div>
 
                 <div class="mb-3">
@@ -58,10 +58,10 @@
                     {% endfor %}
                     {% endif %}
                     <input type="date" class="form-control" id="end_date" name="end_date"
-                        value="{{  view_data.project.end_date|date:'Y-m-d' }}">
+                        value="{{ form.end_date.value }}">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Create</button>
             </form>
         </div>
     </div>

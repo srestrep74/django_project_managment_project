@@ -1,0 +1,56 @@
+{% extends 'layouts/app.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Create New Task</h3>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'save_task' view_data.project.get_id %}" method="POST">
+                {% csrf_token %}
+
+                {% if view_data.form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in view_data.form.non_field_errors %}
+                    <strong>{{ error }}</strong><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    {% if view_data.form.name.errors %}
+                    {% for error in view_data.form.name.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                    {% endif %}
+                    <input type="text" class="form-control" id="name" name="name" value="{{ form.name.value }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    {% if view_data.form.description.errors %}
+                    {% for error in view_data.form.description.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                    {% endif %}
+                    <input type="text" class="form-control" id="description" name="description"
+                        value="{{ form.description.value }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option value="not_started">Not Started</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

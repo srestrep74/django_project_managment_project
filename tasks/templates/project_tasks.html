@@ -1,0 +1,55 @@
+{% extends 'layouts/app.html' %}
+
+{%block content%}
+
+<div class="container mt-5">
+    <h2 class="mb-6">{{ view_data.project.get_name }} Tasks</h2>
+    <br>
+    {% if messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong>
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <br>
+    {% endif %}
+    <a href="{% url 'create_task' view_data.project.get_id %}" class="btn btn-primary mb-4">Create New Task</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in view_data.tasks %}
+            <tr>
+                <td>{{ task.get_id }}</td>
+                <td>{{ task.get_name }}</td>
+                <td>{{ task.get_description }}</td>
+                <td>
+                    <span class="badge 
+                        {% if task.get_status == 'not_started' %}bg-danger
+                        {% elif task.get_status == 'in_progress' %}bg-warning
+                        {% elif task.get_status == 'completed' %}bg-success
+                        {% endif %}
+                    ">
+                        {{ task.get_status_display }}
+                    </span>
+                </td>
+                <td>
+                    <a href="{% url 'edit_task' task.get_id %}" class="btn btn-warning btn-sm">Update</a>
+                    <a href="{% url 'delete_task' task.get_id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

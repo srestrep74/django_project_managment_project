@@ -7,13 +7,13 @@
             <h3 class="card-title">Confirm Delete</h3>
         </div>
         <div class="card-body">
-            <p>Are you sure you want to delete "{{ view_data.project.name }}"?</p>
+            <p>Are you sure you want to delete "{{ view_data.project.get_name }}"?</p>
 
-            <form action="{% url 'destroy' view_data.project.id %}" method="POST">
+            <form action="{% url 'destroy_project' view_data.project.get_id %}" method="POST">
                 {% csrf_token %}
                 <div class="mb-3">
                     <button type="submit" class="btn btn-danger me-2">Delete</button>
-                    <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+                    <a href="{% url 'index_project' %}" class="btn btn-secondary">Cancel</a>
                 </div>
             </form>
         </div>

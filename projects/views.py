@@ -10,19 +10,19 @@ def index(request):
         'projects' : projects
     }
 
-    return render(request, 'index.html', {'view_data' : view_data})
+    return render(request, 'index_project.html', {'view_data' : view_data})
 
-def show(request, id):
-    project = Project.objects.get(id=id)
+def show(request, project_id):
+    project = Project.objects.get(id=project_id)
 
     view_data = {
         'project' : project,
     }
 
-    return render(request, 'show.html', {'view_data' : view_data})
+    return render(request, 'show_project.html', {'view_data' : view_data})
 
 def create(request):
-    return render(request, 'create.html')
+    return render(request, 'create_project.html')
 
 def save(request) : 
     form = ProjectForm(request.POST)
@@ -34,16 +34,17 @@ def save(request) :
         end_date = form.cleaned_data['end_date']
 
         try:
-            project = Project.objects.create(
-                name=name,
-                description=description,
-                start_date=start_date,
-                end_date=end_date,
-            )
+            project = Project()
+            project.set_name(name)
+            project.set_description(description)
+            project.set_start_date(start_date)
+            project.set_end_date(end_date)
+
+            project.save()
 
             messages.success(request, "Project created successfully !")
 
-            return redirect('index')
+            return redirect('index_project')
         except Exception as e:
             error_message = f'Error while saving the project : {str(e)}'
             form.add_error(None, error_message)
@@ -55,20 +56,20 @@ def save(request) :
         'form' : form
     }
 
-    return render(request, 'create.html',  {'view_data' : view_data})
+    return render(request, 'create_project.html',  {'view_data' : view_data})
 
-def delete(request, id):
-    project = Project.objects.get(id=id)
+def delete(request, project_id):
+    project = Project.objects.get(id=project_id)
 
     view_data = {
         'project' : project,
     }
 
-    return render(request, 'delete.html', {'view_data' : view_data})
+    return render(request, 'delete_project.html', {'view_data' : view_data})
 
-def destroy(request, id):
+def destroy(request, project_id):
     try : 
-        project = Project.objects.get(id=id)
+        project = Project.objects.get(id=project_id)
         project.delete()
 
         messages.success(request, "Project deleted successfully !")
@@ -77,33 +78,39 @@ def destroy(request, id):
     except Exception as e:
         messages.error(request, f"Error deleting project: {str(e)}")
     
-    return redirect('index')
+    return redirect('index_project')
 
-def edit(request, id ):
-    project = Project.objects.get(id=id)
+def edit(request, project_id ):
+    project = Project.objects.get(id=project_id)
 
     view_data = {
         'project' : project,
     }
 
-    return render(request, 'edit.html', {'view_data' : view_data})
+    return render(request, 'edit_project.html', {'view_data' : view_data})
 
-def update(request, id):
+def update(request, project_id):
     form = ProjectForm(request.POST)
 
-    if form.is_valid() : 
+    if form.is_valid() :
+        
+        name = form.cleaned_data['name']
+        description = form.cleaned_data['description']
+        start_date = form.cleaned_data['start_date']
+        end_date = form.cleaned_data['end_date'] 
+
         try:
-            project = Project.objects.get(id=id)
-            project.name = request.POST.get('name')
-            project.description = request.POST.get('description')
-            project.start_date = request.POST.get('start_date')
-            project.end_date = request.POST.get('end_date')
+            project = Project.objects.get(id=project_id)
+            project.set_name(name)
+            project.set_description(description)
+            project.set_start_date(start_date)
+            project.set_end_date(end_date)
 
             project.save()
 
             messages.success(request, "Project updated successfully !")
 
-            return redirect('index')
+            return redirect('index_project')
         except Exception as e:
             error_message = f'Error while updating the project : {str(e)}'
             form.add_error(None, error_message)
@@ -115,4 +122,4 @@ def update(request, id):
         'form' : form
     }
 
-    return render(request, 'edit.html',  {'view_data' : view_data})
+    return render(request, 'edit_project.html',  {'view_data' : view_data})
