@@ -1,0 +1,15 @@
+{% extends 'layouts/app.html' %}
+
+{% block content %}
+
+<div class="container d-flex vh-98 justify-content-center align-items-center">
+    <div class="text-center">
+        <h1 class="mb-4">Welcome!</h1>
+        <p class="lead mb-4">Here you can manage your projects and tasks.</p>
+        <div class="mt-4">
+            <a href="{% url 'index_project' %}" class="btn btn-primary me-2">Manage Projects</a>
+            <a href="{% url 'completed_tasks' %}" class="btn btn-secondary">Manage Tasks</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
